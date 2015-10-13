@@ -69,6 +69,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Unhosts Tabletop Simulator workshop custom content.")
     parser.add_argument("json_input", help="path to either a WorkshopFileInfos file, or one or more Workshop mod .json files", nargs="+")
     parser.add_argument("--output", "-o", help="where to store the Models and Images subdirectories")
+    parser.add_argument("--replace", "-r", help="replace files already in the output directory")
     args = parser.parse_args()
 
     all_image_urls = {}
@@ -159,18 +160,22 @@ if __name__ == '__main__':
             print("(%d/%d) %s" % (n, len(all_urls), url[0]))
 
             if data:
-                try:
-                    if url[1] == DataType.image:
-                        with open(os.path.join(image_dir, all_image_urls[url]), "wb") as fp:
+                if url[1] == DataType.image:
+                    path = os.path.join(image_dir, all_image_urls[url])
+                    if not os.path.isfile(path) or args.replace:
+                        with open(path, "wb") as fp:
                             fp.write(data)
-                    elif url[1] == DataType.model:
-                        with open(os.path.join(model_dir, all_model_urls[url]), "wb") as fp:
-                            fp.write(data)
-                except Exception as e:
-                    print("Exception while writing", url)
-                    print(e)
+                    else:
+                        print("\tAlready exists, skipping.")
 
-                print("\t... Saved.")
+                elif url[1] == DataType.model:
+                    path = os.path.join(model_dir, all_model_urls[url])
+                    if not os.path.isfile(path) or args.replace:
+                        with open(path, "wb") as fp:
+                            fp.write(data)
+                    else:
+                        print("\tAlready exists, skipping.")
+
                 sys.stdout.flush()
             n += 1
 
