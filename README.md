@@ -44,12 +44,21 @@ You can stick something like the above into the archive, so that users have a re
 
 ## Arguments
 
-- *Material* `-m --material MATERIAL` - Explicitly tell the script what `.mtl` file to use.
-- *Output* `-o --output OUTPUT` - Explicitly tell the script where output to.
-- *Add* `-a --add [ADD, ...]` - Additional images to be packed. (Probably useless)
-- *No crop* `--no-crop` - Disable any cropping or tiling/unrolling.
-- *No tile* `--no-tile` - Ignore any wrapped/tiling of textures (depends on cropping).
+    usage: unhoster.py [-h] [--output OUTPUT] [--replace REPLACE]
+                       json_input [json_input ...]
 
+    Unhosts Tabletop Simulator workshop custom content.
+
+    positional arguments:
+      json_input            path to either a WorkshopFileInfos file, or one or
+                            more Workshop mod .json files
+
+    optional arguments:
+      -h, --help            show this help message and exit
+      --output OUTPUT, -o OUTPUT
+                            where to store the Models and Images subdirectories
+      --replace REPLACE, -r REPLACE
+                            replace files already in the output directory (defaults off)
 
 ## Features
 - If you point the script at your `WorkshopFileInfos.json` file (or drag and drop the file onto the script) within `\Mods\Workshop\`, you can run the script on any installed mod by typing in its name.
