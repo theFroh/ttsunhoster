@@ -39,7 +39,7 @@ def url_to_tts(url):
     return "".join([c for c in url if c.isalpha() or c.isdigit()]).rstrip() + url_ext
 
 def parse_tts_custom_object(workshop_json):
-    with open(workshop_json, "r") as fp:
+    with open(workshop_json, "r", encoding="utf-8") as fp:
         save = load(fp)
         objects = save["ObjectStates"]
 
@@ -79,7 +79,7 @@ if __name__ == '__main__':
     if len(args.json_input) == 1 and os.path.basename(args.json_input[0]) == "WorkshopFileInfos.json": # this wont ever break, ever! please
         print("Loaded WorkshopFileInfos.json; listing json names")
 
-        with open(args.json_input[0], "r") as fp:
+        with open(args.json_input[0], "r", encoding="utf-8") as fp:
             file_infos = load(fp)
 
         name_map = {}
